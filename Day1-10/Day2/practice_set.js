@@ -35,11 +35,11 @@
 
 // Q5
 
-const dict ={
-    "a": "Aditya",
-    "b": "bravo"
-}
-console.log(dict);
-console.log(dict.a);
-console.log(dict['a']);
+// const dict ={
+//     "a": "Aditya",
+//     "b": "bravo"
+// }
+// console.log(dict);
+// console.log(dict.a);
+// console.log(dict['a']);
 

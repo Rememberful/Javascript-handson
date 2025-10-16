@@ -53,10 +53,16 @@
 // console.log(a===b); 
 // console.log(a!==b);
 
-let a = 2;
-let b = 7;
-console.log(a>b && a==2);
-console.log(a<b && a==2);
-console.log(a<b && a!=2);
+// let a = 2;
+// let b = 7;
+// console.log(a>b && a==2);
+// console.log(a<b && a==2);
+// console.log(a<b && a!=2);
+
+//Single line comment
+
+/* 
+Multiline comment
+*/
 
 
