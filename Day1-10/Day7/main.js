@@ -11,16 +11,18 @@
 // }
 
 //Write a program to print "try again" until the user enters the correct number
+let our_number = 9;
+let user_number;
 
-// let our_number = 9;
-// let your_number;
-
-// while (our_number!=your_number) {
-//     your_number = prompt("Enter a number:");
-//     if(our_number!=your_number) {
-//         console.log("Try again");
-//     }
-// }
+while (our_number!=user_number) {
+    user_number = Number(prompt("Enter the number:"));
+    if(our_number!=user_number){
+        console.log("Try again");
+    }
+    else{
+        console.log("You guessed 9 as correct");
+    }
+}
 
 // console.log("You entered the correct number!");
 
@@ -31,3 +33,15 @@
 // }
 
 // console.log(mean(5,6,7,8,9));
+
+//Function to find the mean of 5 numbers entered by user
+// let a = prompt("Enter a:");
+// let b = prompt("Enter b:");
+// let c = prompt("Enter c:");
+// let d = prompt("Enter d:");
+// let e = prompt("Enter e:");
+// function mean(a,b,c,d,e){
+//     let x = (a+b+c+d+e)/5;
+//     return x;
+// }
+// console.log(mean());
