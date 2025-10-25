@@ -53,28 +53,28 @@
 
 
 // given array of numbers
-let numbers = [2, 5, 7, 10, 12];
+// let numbers = [2, 5, 7, 10, 12];
 
-// create a new array with squares of each number
-let squares = numbers.map(num => num * num);
+// // create a new array with squares of each number
+// let squares = numbers.map(num => num * num);
 
-// show the results
-console.log("Original numbers:", numbers);
-console.log("Squares:", squares);
+// // show the results
+// console.log("Original numbers:", numbers);
+// console.log("Squares:", squares);
 
-alert("Squares: " + squares.join(", "));
+// alert("Squares: " + squares.join(", "));
 
 // // ask user for a number
-// let n = parseInt(prompt("Enter a number to find its factorial:"));
+let n = parseInt(prompt("Enter a number to find its factorial:"));
 
-// // create an array from 1 to n
-// let numbers = [];
-// for (let i = 1; i <= n; i++) {
-//   numbers.push(i);
-// }
+// create an array from 1 to n
+let numbers = [];
+for (let i = 1; i <= n; i++) {
+  numbers.push(i);
+}
 
-// // use reduce to calculate factorial
-// let factorial = numbers.reduce((acc, curr) => acc * curr, 1);
+// use reduce to calculate factorial
+let factorial = numbers.reduce((acc, curr) => acc * curr, 1);
 
-// console.log(`Factorial of ${n} is: ${factorial}`);
-// alert(`Factorial of ${n} is: ${factorial}`);
+console.log(`Factorial of ${n} is: ${factorial}`);
+alert(`Factorial of ${n} is: ${factorial}`);

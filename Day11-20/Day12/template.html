@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alert, Prompt & Confirm Example</title>
+</head>
+<body>
+
+  <script>
+    // 1️⃣ Show a welcome message
+    alert("Welcome to my website!");
+
+    // 2️⃣ Ask user for their name
+    let userName = prompt("What is your name?");
+
+    // 3️⃣ Show personalized message
+    if (userName) {
+      alert("Hello, " + userName + "!");
+    } else {
+      alert("You didn’t enter a name.");
+    }
+
+    // 4️⃣ Ask for confirmation
+    let confirmExit = confirm("Do you want to exit the page?");
+
+    // 5️⃣ Check user's choice
+    if (confirmExit) {
+      alert("You chose to exit. Goodbye!");
+    } else {
+      alert("Glad you stayed, " + userName + "!");
+    }
+  </script>
+
+</body>
+</html>
