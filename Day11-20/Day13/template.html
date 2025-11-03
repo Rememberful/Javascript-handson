@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DOM, BOM & Window Example</title>
+</head>
+<body>
+
+  <h1 id="title">Hello, World!</h1>
+  <button onclick="changeContent()">Change Text (DOM)</button>
+  <button onclick="showInfo()">Show Info (BOM)</button>
+  <button onclick="windowAlert()">Window Alert</button>
+
+  <script>
+    // 1️⃣ Window Object Example
+    function windowAlert() {
+      // 'window' is the global object
+      window.alert("This is an alert from the Window object!");
+      console.log("Window width: " + window.innerWidth);
+    }
+
+    // 2️⃣ DOM Example (Document Object Model)
+    function changeContent() {
+      let heading = document.getElementById("title"); // access <h1> element
+      heading.innerText = "Text Changed Using DOM!";
+      heading.style.color = "blue"; // change color
+    }
+
+    // 3️⃣ BOM Example (Browser Object Model)
+    function showInfo() {
+      alert("Current URL: " + window.location.href); // current page link
+      console.log("Browser history length: " + window.history.length);
+      console.log("Screen width: " + window.screen.width);
+    }
+
+    // 4️⃣ Accessing everything through 'window' (optional)
+    console.log(window.document.title); // page title
+  </script>
+
+</body>
+</html>
