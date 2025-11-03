@@ -1,30 +1,30 @@
 //write a program using prompt function to take input from user and then decide if he/she can dirve or not using the alert function
 
-let age = Number.parseInt(prompt("Enter your age:"));
-console.log("You entered age:", age);
-if (age>=18) {
-    alert("You can drive");
-}
-else {
-    alert("You cannot drive");
-}
+// let age = Number.parseInt(prompt("Enter your age:"));
+// console.log("You entered age:", age);
+// if (age>=18) {
+//     alert("You can drive");
+// }
+// else {
+//     alert("You cannot drive");
+// }
 
 // for above question confirm if user want to enter again 
-// let runAgain = true;
+let runAgain = true;
 
-// while (runAgain) {
-//     let age = Number.parseInt(prompt("Enter your age:"));
+while (runAgain) {
+    let age = Number.parseInt(prompt("Enter your age:"));
     
-//     if (isNaN(age)) {
-//         alert("Please enter a valid number!");
-//     } else if (age >= 18) {
-//         alert("You can drive");
-//     } else {
-//         alert("You cannot drive");
-//     }
+    if (isNaN(age)) {
+        alert("Please enter a valid number!");
+    } else if (age >= 18) {
+        alert("You can drive");
+    } else {
+        alert("You cannot drive");
+    }
 
-//     runAgain = confirm("Do you want to enter your age again?");
-// }
+    runAgain = confirm("Do you want to enter your age again?");
+}
 
 //for same question, check if age entered is negative
 // let runAgain = true;
