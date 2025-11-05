@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DOM Searching Demo</title>
+  <style>
+    body { font-family: Arial; }
+    .text { color: black; }
+    .box { padding: 10px; border: 1px solid gray; width: 200px; margin-top: 10px; }
+    button { margin: 5px; padding: 5px 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <h1 id="mainHeading">Welcome to JavaScript DOM</h1>
+
+  <p class="text">This is paragraph 1</p>
+  <p class="text">This is paragraph 2</p>
+  <div class="box">This is a box</div>
+
+  <hr>
+
+  <!-- Buttons to trigger each method -->
+  <button onclick="changeById()">getElementById()</button>
+  <button onclick="changeByClass()">getElementsByClassName()</button>
+  <button onclick="changeByTag()">getElementsByTagName()</button>
+  <button onclick="changeByQuery()">querySelector()</button>
+  <button onclick="changeByQueryAll()">querySelectorAll()</button>
+
+  <script>
+    // 1️⃣ getElementById()
+    function changeById() {
+      let heading = document.getElementById("mainHeading");
+      heading.style.color = "blue";
+      heading.innerText = "Heading changed by ID!";
+    }
+
+    // 2️⃣ getElementsByClassName()
+    function changeByClass() {
+      let items = document.getElementsByClassName("text");
+      for (let i of items) {
+        i.style.color = "green";
+        i.innerText = "Changed by Class!";
+      }
+    }
+
+    // 3️⃣ getElementsByTagName()
+    function changeByTag() {
+      let paragraphs = document.getElementsByTagName("p");
+      for (let p of paragraphs) {
+        p.style.fontWeight = "bold";
+        p.innerText = "Changed by Tag!";
+      }
+    }
+
+    // 4️⃣ querySelector()
+    function changeByQuery() {
+      let box = document.querySelector(".box");
+      box.style.backgroundColor = "lightyellow";
+      box.innerText = "Changed by querySelector!";
+    }
+
+    // 5️⃣ querySelectorAll()
+    function changeByQueryAll() {
+      let allTexts = document.querySelectorAll(".text");
+      allTexts.forEach(t => {
+        t.style.backgroundColor = "lightblue";
+        t.innerText = "Changed by querySelectorAll!";
+      });
+    }
+  </script>
+
+</body>
+</html>
