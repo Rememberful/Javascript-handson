@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>matches(), closest(), contains()</title>
+</head>
+<body>
+
+  <div class="wrapper">
+    <div class="card">
+      <p class="info">Hello World!</p>
+    </div>
+  </div>
+
+  <script>
+    let para = document.querySelector(".info");
+    let card = document.querySelector(".card");
+    let wrapper = document.querySelector(".wrapper");
+
+    // matches()
+    console.log(para.matches(".info")); // true
+    console.log(para.matches(".box"));  // false
+
+    // closest()
+    console.log(para.closest(".card"));    // <div class="card">
+    console.log(para.closest(".wrapper")); // <div class="wrapper">
+
+    // contains()
+    console.log(wrapper.contains(card)); // true
+    console.log(card.contains(para));    // true
+    console.log(para.contains(wrapper)); // false
+  </script>
+
+</body>
+</html>
