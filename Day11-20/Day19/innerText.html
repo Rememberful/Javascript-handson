@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>innerText Example</h2>
+<div id="box">
+  Hello <span style="display:none">Hidden</span> World!
+</div>
+
+<button onclick="showInnerText()">Show innerText</button>
+
+<script>
+function showInnerText() {
+  let box = document.getElementById("box");
+  console.log("innerText:", box.innerText);     // "Hello World!"
+  console.log("textContent:", box.textContent); // "Hello Hidden World!"
+}
+</script>
+
+</body>
+</html>

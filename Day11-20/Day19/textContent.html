@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>textContent Example</h2>
+<div id="box">Hello <b>World!</b></div>
+
+<button onclick="changeTextContent()">Change textContent</button>
+
+<script>
+function changeTextContent() {
+  let box = document.getElementById("box");
+  console.log("Before:", box.textContent); // "Hello World!"
+  box.textContent = "Changed using textContent (no HTML tags)";
+}
+</script>
+
+</body>
+</html>

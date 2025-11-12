@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>outerHTML Example</h2>
+<div id="box">This will be replaced</div>
+
+<button onclick="replaceOuterHTML()">Replace Element</button>
+
+<script>
+function replaceOuterHTML() {
+  let box = document.getElementById("box");
+  console.log("Before:", box.outerHTML); // Whole element
+  box.outerHTML = "<p><b>New element created!</b></p>";
+}
+</script>
+
+</body>
+</html>

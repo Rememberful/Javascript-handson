@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>innerHTML Example</h2>
+<div id="box">Hello <b>World!</b></div>
+
+<button onclick="changeInnerHTML()">Change innerHTML</button>
+
+<script>
+function changeInnerHTML() {
+  let box = document.getElementById("box");
+  console.log("Before:", box.innerHTML); // See current content
+  box.innerHTML = "Changed using <i>innerHTML</i>!";
+  console.log("After:", box.innerHTML);  // See changed content
+}
+</script>
+
+</body>
+</html>
