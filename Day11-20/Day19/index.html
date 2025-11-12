@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fancy Notes App with Categories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ========== GLOBAL RESET ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #1e3c72, #2a5298);
+      color: #fff;
+    }
+
+    /* ========== NAVBAR ========== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 5%;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #00c3ff;
+      text-shadow: 0 0 8px #00c3ff;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle .bar {
+      height: 3px;
+      width: 25px;
+      background-color: white;
+      margin: 4px 0;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 850px) {
+      .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 250px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        height: 0;
+        overflow: hidden;
+        transition: height 0.4s ease;
+      }
+
+      .nav-links.active {
+        height: 300px;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .menu-toggle.is-active .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.is-active .bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      .menu-toggle.is-active .bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+
+    /* ========== NOTES SECTION ========== */
+    .notes-section {
+      padding: 60px 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .notes-section h1 {
+      font-size: 2.2rem;
+      margin-bottom: 25px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .controls input,
+    .controls select {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+    }
+
+    .note-input-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 20px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      resize: none;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 1rem;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #00c3ff, #7f00ff);
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0,195,255,0.6);
+    }
+
+    .notes-grid {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .note {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 15px;
+      color: white;
+      text-align: left;
+      word-wrap: break-word;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .note p {
+      margin-bottom: 10px;
+    }
+
+    .note .category {
+      font-size: 0.85rem;
+      color: #00c3ff;
+      opacity: 0.9;
+    }
+
+    .note button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 0, 0, 0.7);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">📝 MyNotes</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#notes">Notes</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <div class="menu-toggle" id="mobile-menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </nav>
+
+  <!-- NOTES APP SECTION -->
+  <section class="notes-section" id="notes">
+    <h1>Organize Your Notes 🧠</h1>
+
+    <!-- Controls -->
+    <div class="controls">
+      <input type="text" id="searchInput" placeholder="🔍 Search notes...">
+      <select id="filterCategory">
+        <option value="all">All Categories</option>
+      </select>
+    </div>
+
+    <!-- Input Box -->
+    <div class="note-input-box">
+      <textarea id="noteText" placeholder="Write your note..."></textarea>
+      <input type="text" id="noteCategory" placeholder="Category (e.g. Work, Study, Personal)">
+      <button id="saveNote">Save Note</button>
+    </div>
+
+    <!-- Notes Display -->
+    <div class="notes-grid" id="notesGrid"></div>
+  </section>
+
+  <script>
+    // Navbar mobile menu
+    const menu = document.querySelector('#mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    menu.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      menu.classList.toggle('is-active');
+    });
+
+    // Notes functionality
+    const saveBtn = document.getElementById('saveNote');
+    const noteInput = document.getElementById('noteText');
+    const noteCategory = document.getElementById('noteCategory');
+    const notesGrid = document.getElementById('notesGrid');
+    const searchInput = document.getElementById('searchInput');
+    const filterCategory = document.getElementById('filterCategory');
+
+    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+    function renderCategories() {
+      const categories = [...new Set(notes.map(n => n.category))];
+      filterCategory.innerHTML = `<option value="all">All Categories</option>`;
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        filterCategory.appendChild(option);
+      });
+    }
+
+    function renderNotes() {
+      notesGrid.innerHTML = '';
+      const search = searchInput.value.toLowerCase();
+      const selectedCat = filterCategory.value;
+
+      const filtered = notes.filter(n =>
+        (n.text.toLowerCase().includes(search) ||
+        n.category.toLowerCase().includes(search)) &&
+        (selectedCat === 'all' || n.category === selectedCat)
+      );
+
+      if (filtered.length === 0) {
+        notesGrid.innerHTML = '<p>No notes found.</p>';
+        return;
+      }
+
+      filtered.forEach((note, index) => {
+        const div = document.createElement('div');
+        div.classList.add('note');
+        div.innerHTML = `
+          <p>${note.text}</p>
+          <span class="category">#${note.category}</span>
+          <button onclick="deleteNote(${index})">✖</button>
+        `;
+        notesGrid.appendChild(div);
+      });
+    }
+
+    function saveNote() {
+      const text = noteInput.value.trim();
+      const category = noteCategory.value.trim() || 'General';
+      if (!text) return;
+
+      notes.push({ text, category });
+      localStorage.setItem('notes', JSON.stringify(notes));
+      noteInput.value = '';
+      noteCategory.value = '';
+      renderNotes();
+      renderCategories();
+    }
+
+    function deleteNote(index) {
+      notes.splice(index, 1);
+      localStorage.setItem('notes', JSON.stringify(notes));
+      renderNotes();
+      renderCategories();
+    }
+
+    saveBtn.addEventListener('click', saveNote);
+    searchInput.addEventListener('input', renderNotes);
+    filterCategory.addEventListener('change', renderNotes);
+
+    renderNotes();
+    renderCategories();
+    window.deleteNote = deleteNote;
+  </script>
+
+</body>
+</html>
