@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Adjacent Insert Methods</title>
+</head>
+<body>
+
+  <h2 id="box">Hello</h2>
+
+  <button onclick="addHTML()">insertAdjacentHTML</button>
+  <button onclick="addElement()">insertAdjacentElement</button>
+  <button onclick="addText()">insertAdjacentText</button>
+
+  <script>
+    // 1️⃣ insertAdjacentHTML
+    function addHTML() {
+      let box = document.getElementById("box");
+      box.insertAdjacentHTML("beforeend", " <b>World</b>");
+    }
+
+    // 2️⃣ insertAdjacentElement
+    function addElement() {
+      let box = document.getElementById("box");
+      let newP = document.createElement("p");
+      newP.textContent = "This is a new paragraph.";
+      box.insertAdjacentElement("afterend", newP);
+    }
+
+    // 3️⃣ insertAdjacentText
+    function addText() {
+      let box = document.getElementById("box");
+      box.insertAdjacentText("beforebegin", "Start- ");
+    }
+  </script>
+
+</body>
+</html>
