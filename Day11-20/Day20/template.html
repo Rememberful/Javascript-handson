@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML Attributes Template</title>
+</head>
+<body>
+
+  <h2 id="title" class="main" data-info="sample">Hello World</h2>
+
+  <button onclick="readAttr()">getAttribute()</button>
+  <button onclick="writeAttr()">setAttribute()</button>
+  <button onclick="checkAttr()">hasAttribute()</button>
+  <button onclick="deleteAttr()">removeAttribute()</button>
+  <button onclick="listAttr()">attributes</button>
+
+  <script>
+    function readAttr() {
+      let elem = document.getElementById("title");
+      console.log("class:", elem.getAttribute("class"));
+      console.log("data-info:", elem.getAttribute("data-info"));
+    }
+
+    function writeAttr() {
+      let elem = document.getElementById("title");
+      elem.setAttribute("class", "updated");
+      elem.setAttribute("title", "New tooltip added!");
+      console.log("Attributes updated!");
+    }
+
+    function checkAttr() {
+      let elem = document.getElementById("title");
+      console.log("Has class?", elem.hasAttribute("class"));
+      console.log("Has style?", elem.hasAttribute("style"));
+    }
+
+    function deleteAttr() {
+      let elem = document.getElementById("title");
+      elem.removeAttribute("data-info");
+      console.log("data-info removed!");
+    }
+
+    function listAttr() {
+      let elem = document.getElementById("title");
+      console.log("All attributes:", elem.attributes);
+    }
+  </script>
+
+</body>
+</html>
