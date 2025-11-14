@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="box">Hello</div>
+
+<button onclick="addAppend()">append()</button>
+<button onclick="addPrepend()">prepend()</button>
+<button onclick="addBefore()">before()</button>
+<button onclick="addAfter()">after()</button>
+<button onclick="replaceIt()">replaceWith()</button>
+<button onclick="insertHTML()">insertAdjacentHTML()</button>
+
+<script>
+  let box = document.getElementById("box");
+
+  function addAppend() {
+    box.append(" [Appended]");
+  }
+
+  function addPrepend() {
+    box.prepend("[Start] ");
+  }
+
+  function addBefore() {
+    box.before("**Before Box** ");
+  }
+
+  function addAfter() {
+    box.after(" **After Box**");
+  }
+
+  function replaceIt() {
+    box.replaceWith("💥 Box Replaced!");
+  }
+
+  function insertHTML() {
+    box.insertAdjacentHTML("beforeend", "<p>Inserted HTML</p>");
+  }
+</script>
+
+</body>
+</html>
