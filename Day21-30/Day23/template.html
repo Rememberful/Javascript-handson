@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .red { color: red; }
+  .blue { color: blue; }
+  .big { font-size: 30px; }
+</style>
+</head>
+<body>
+
+<h2 id="text">Hello World</h2>
+
+<button onclick="useClassName()">className</button>
+<button onclick="addClass()">add()</button>
+<button onclick="removeClass()">remove()</button>
+<button onclick="toggleClass()">toggle()</button>
+<button onclick="replaceClass()">replace()</button>
+
+<script>
+  let text = document.getElementById("text");
+
+  function useClassName() {
+    text.className = "red";   // Replaces all classes
+  }
+
+  function addClass() {
+    text.classList.add("big");
+  }
+
+  function removeClass() {
+    text.classList.remove("big");
+  }
+
+  function toggleClass() {
+    text.classList.toggle("blue");
+  }
+
+  function replaceClass() {
+    text.classList.replace("red", "blue");
+  }
+</script>
+
+</body>
+</html>
