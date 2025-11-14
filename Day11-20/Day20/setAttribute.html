@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.highlight {
+  color: red;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<p id="msg">Hello</p>
+<button onclick="changeIt()">Change Attribute</button>
+
+<script>
+function changeIt() {
+  let para = document.getElementById("msg");
+  para.setAttribute("class", "highlight");
+  para.setAttribute("title", "New Tooltip Added!");
+}
+</script>
+
+</body>
+</html>
