@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Handling Browser Events</title>
+</head>
+<body>
+
+    <!-- Elements -->
+    <button id="btn">Click Me</button>
+    <input id="textBox" placeholder="Type something">
+    <form id="form">
+        <input type="text" placeholder="Enter name">
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // 1. Click Event
+        const btn = document.getElementById("btn");
+        btn.addEventListener("click", function () {
+            console.log("Button clicked");
+        });
+
+        // 2. Input Event
+        const textBox = document.getElementById("textBox");
+        textBox.addEventListener("input", function () {
+            console.log("User typed:", textBox.value);
+        });
+
+        // 3. Form Submit Event
+        const form = document.getElementById("form");
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // stops page reload
+            console.log("Form submitted");
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+<button id="btn">Click</button>
+
+<script>
+function sayHello() {
+    alert("Hello");
+}
+
+btn.addEventListener("click", sayHello);
+
+// Remove the event
+btn.removeEventListener("click", sayHello);
+</script>
