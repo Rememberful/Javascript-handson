@@ -1,0 +1,816 @@
+<!-- JavaScript example that shows different alert messages when different buttons are clicked. -->
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Button Alerts</title>
+</head>
+<body>
+
+    <h2>Click a Button</h2>
+
+    <button onclick="showAlert1()">Button 1</button>
+    <button onclick="showAlert2()">Button 2</button>
+    <button onclick="showAlert3()">Button 3</button>
+
+    <script>
+        function showAlert1() {
+            alert("You clicked Button 1!");
+        }
+
+        function showAlert2() {
+            alert("Button 2 was clicked!");
+        }
+
+        function showAlert3() {
+            alert("This is Button 3’s alert!");
+        }
+    </script>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cyberpunk Neon Bookmark Manager</title>
+
+<style>
+  /* ---------------------------
+     CYBERPUNK NEON THEME
+     --------------------------- */
+  :root{
+    --bg:#0b0b12;
+    --panel: rgba(10,10,15,0.6);
+    --muted:#9aa3ff;
+    --accent1:#7afcff; /* cyan */
+    --accent2:#ff4de1; /* pink */
+    --accent3:#9a7bff; /* purple */
+    --glass: rgba(255,255,255,0.04);
+    --glass-2: rgba(255,255,255,0.02);
+    --card: rgba(255,255,255,0.03);
+    --danger:#ff5c7a;
+    --radius:14px;
+    --glow: 0 6px 30px rgba(122, 126, 255, 0.12);
+    --mono: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  * { box-sizing: border-box; }
+  html,body{height:100%; margin:0; font-family:var(--mono); background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(122,127,255,0.06), transparent 10%),
+    radial-gradient(1000px 400px at 90% 90%, rgba(255,77,200,0.04), transparent 10%),
+    var(--bg);
+    color: #e7e7ff;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* layout */
+  .app {
+    max-width:1200px;
+    margin:28px auto;
+    padding:26px;
+    border-radius:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 80px rgba(122,127,255,0.04) inset;
+    display:grid;
+    grid-template-columns: 260px 1fr;
+    gap:20px;
+    min-height: calc(100vh - 80px);
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background: linear-gradient(180deg, rgba(10,10,15,0.6), rgba(10,10,15,0.5));
+    border-radius: var(--radius);
+    padding:16px;
+    border: 1px solid rgba(122,127,255,0.06);
+    position:relative;
+    box-shadow: var(--glow);
+  }
+  .brand {
+    display:flex; gap:12px; align-items:center; margin-bottom:10px;
+  }
+  .logo {
+    width:46px; height:46px; border-radius:10px;
+    background: linear-gradient(135deg,var(--accent1),var(--accent2));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:#07101a; font-size:18px;
+    box-shadow: 0 6px 18px rgba(122,127,255,0.12);
+  }
+  h1 { margin:0; font-size:18px; letter-spacing:0.6px; color:#eaf1ff; }
+  .subtitle { font-size:12px; color:var(--muted); margin-top:4px; }
+
+  .folder-list { margin-top:14px; display:flex; flex-direction:column; gap:8px; max-height:62vh; overflow:auto; padding-right:6px; }
+  .folder {
+    display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; cursor:pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+    border:1px solid rgba(255,255,255,0.02);
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+  }
+  .folder:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(122,127,255,0.06); }
+  .folder.active { outline: 1px solid rgba(122,127,255,0.18); box-shadow: 0 10px 40px rgba(122,127,255,0.08); }
+  .folder .dot { width:10px; height:10px; border-radius:50%; background: linear-gradient(90deg,var(--accent1),var(--accent3)); box-shadow: 0 4px 10px rgba(122,127,255,0.12); }
+  .folder .fname { font-weight:600; font-size:13px; color:#f6f8ff; flex:1; }
+
+  .folder-controls { display:flex; gap:8px; margin-top:12px; }
+
+  .small-btn {
+    padding:8px 10px; border-radius:10px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(122,127,255,0.06); color:var(--muted); cursor:pointer; font-size:13px;
+  }
+  .small-btn:hover { transform:translateY(-3px); color:white; }
+
+  /* main area */
+  .main {
+    padding:18px;
+    border-radius:var(--radius);
+    background: linear-gradient(180deg, rgba(10,8,20,0.35), rgba(10,8,20,0.28));
+    border: 1px solid rgba(255,255,255,0.03);
+    display:flex; flex-direction:column;
+  }
+
+  .controls {
+    display:flex; gap:12px; align-items:center; margin-bottom:12px;
+  }
+
+  .search {
+    flex:1;
+    display:flex; gap:8px; align-items:center;
+    padding:10px 12px; border-radius:12px; background:var(--glass);
+    border:1px solid rgba(122,127,255,0.05); color:#e7e7ff;
+  }
+  .search input { background:transparent; border:none; outline:none; color:inherit; width:100%; font-size:14px; }
+  .toggle {
+    display:flex; gap:8px; align-items:center;
+  }
+
+  .add-area {
+    display:flex; gap:10px; align-items:center; margin-bottom:14px; flex-wrap:wrap;
+  }
+  .input, select {
+    padding:12px 14px; border-radius:12px; background:var(--card); border:1px solid rgba(255,255,255,0.02); color: #e7e7ff; outline:none;
+    min-width:160px;
+  }
+  .btn-primary {
+    background: linear-gradient(90deg,var(--accent1),var(--accent2));
+    color:#071820; padding:12px 16px; border-radius:12px; border:none; cursor:pointer; font-weight:700;
+    box-shadow: 0 8px 30px rgba(122,127,255,0.12);
+  }
+  .btn-ghost { background:transparent; border:1px dashed rgba(255,255,255,0.03); color:var(--muted); padding:10px 12px; border-radius:10px; cursor:pointer; }
+
+  /* bookmark grid/list */
+  .bookmarks {
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:12px; align-items:start;
+    margin-top:6px; overflow:auto; padding-bottom:12px;
+  }
+
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
+    border-radius:12px; padding:12px; border:1px solid rgba(122,127,255,0.04);
+    display:flex; gap:10px; align-items:center; transition: transform .12s ease, box-shadow .12s ease;
+    cursor:grab;
+  }
+  .card.dragging { opacity:0.5; transform:scale(0.98); box-shadow: 0 12px 40px rgba(122,127,255,0.06); }
+  .card:hover { transform:translateY(-6px); box-shadow: 0 12px 40px rgba(122,127,255,0.06); }
+
+  .favicon {
+    width:44px; height:44px; border-radius:8px; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:#02121a; font-weight:700;
+  }
+  .info { flex:1; min-width:0; }
+  .title { font-weight:700; font-size:14px; color:#eaf1ff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .url { font-size:12px; color:var(--muted); margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+  .card-actions { display:flex; gap:8px; align-items:center; }
+  .icon-btn { padding:8px 10px; border-radius:10px; background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.02); color:var(--muted); cursor:pointer; }
+  .icon-btn:hover { color:white; transform:translateY(-3px); }
+
+  .empty { color:var(--muted); padding:20px; text-align:center; border:1px dashed rgba(255,255,255,0.02); border-radius:10px; }
+
+  /* import area modal */
+  .modal {
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(2,2,6,0.6); z-index:1000; visibility:hidden; opacity:0; transition:opacity .12s;
+  }
+  .modal.open { visibility:visible; opacity:1; }
+  .modal-card { width:90%; max-width:760px; background: linear-gradient(180deg, rgba(10,8,20,0.98), rgba(10,8,20,0.96)); padding:18px; border-radius:12px; border:1px solid rgba(122,127,255,0.06); box-shadow: 0 12px 60px rgba(0,0,0,0.6); }
+  textarea.import-box { width:100%; min-height:180px; padding:12px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.04); color:#e7e7ff; resize:vertical; }
+
+  /* footer */
+  .footer { margin-top:auto; font-size:12px; color:var(--muted); display:flex; justify-content:space-between; align-items:center; gap:6px; margin-top:12px; }
+
+  /* responsive */
+  @media (max-width:900px) {
+    .app { grid-template-columns:1fr; padding:12px; gap:12px; }
+    .sidebar { order:2; }
+    .main { order:1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <!-- SIDEBAR: folders -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">CP</div>
+      <div>
+        <h1>Neon Bookmarks</h1>
+        <div class="subtitle">cyberpunk neon manager</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input id="newFolderName" class="input" placeholder="New folder name" style="flex:1;padding:8px 10px;border-radius:10px;" />
+      <button class="small-btn" id="addFolderBtn" title="Create folder">+</button>
+    </div>
+
+    <div class="folder-list" id="folderList" aria-label="folders"></div>
+
+    <div class="folder-controls">
+      <button class="small-btn" id="renameFolderBtn">Rename</button>
+      <button class="small-btn" id="delFolderBtn">Delete</button>
+      <button class="small-btn" id="exportBtn">Export</button>
+      <button class="small-btn" id="importBtn">Import</button>
+    </div>
+
+    <div style="margin-top:14px; font-size:12px; color:var(--muted);">
+      Tip: drag & drop cards to reorder or move between folders.
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="controls">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15z"/></svg>
+        <input id="searchInput" placeholder="Search bookmarks (name or url)..." />
+      </div>
+
+      <div class="toggle">
+        <button class="btn-ghost" id="contrastToggle" title="Toggle high contrast">High Contrast</button>
+        <button class="btn-ghost" id="clearAllBtn" title="Clear all bookmarks">Clear All</button>
+      </div>
+    </div>
+
+    <div class="add-area">
+      <input id="bookmarkName" class="input" placeholder="Site name (e.g. MDN)" />
+      <input id="bookmarkURL" class="input" placeholder="https://example.com" />
+      <select id="folderSelect" class="input" style="min-width:150px;">
+        <!-- dynamically filled -->
+      </select>
+      <button class="btn-primary" id="addBookmarkBtn">Add Bookmark</button>
+      <button class="btn-ghost" id="editModeBtn" title="Toggle edit mode">Edit Mode</button>
+    </div>
+
+    <div id="bookmarksContainer" class="bookmarks" aria-live="polite"></div>
+
+    <div class="footer">
+      <div id="stats">0 bookmarks • 0 folders</div>
+      <div style="color:var(--muted)">Built with neon ❤️</div>
+    </div>
+  </main>
+</div>
+
+<!-- IMPORT / EDIT MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-card">
+    <h3 style="margin-top:0">Import bookmarks (paste JSON)</h3>
+    <textarea id="importTextarea" class="import-box" placeholder='Paste JSON array like: [{"name":"X","url":"https://..."}, ...]'></textarea>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px;">
+      <button class="small-btn" id="cancelImport">Cancel</button>
+      <button class="small-btn" id="doImport">Import</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------------------
+   Data model in localStorage
+   - folders: array of {id,name}
+   - bookmarks: array of {id,name,url,folderId,createdAt,updatedAt}
+   --------------------------- */
+const STORAGE_KEY = 'neon_bookmarks_v1';
+
+function uid(prefix='id'){
+  return prefix + '_' + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4);
+}
+
+/* default data */
+function defaultData(){
+  return {
+    folders: [
+      { id: 'f_all', name: 'All Bookmarks' },
+      { id: 'f_uncat', name: 'Unsorted' }
+    ],
+    bookmarks: []
+  };
+}
+
+let state = loadState();
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      const d = defaultData();
+      saveState(d);
+      return d;
+    }
+    return JSON.parse(raw);
+  } catch(e){
+    console.error('Failed to load state, resetting.', e);
+    const d = defaultData();
+    saveState(d);
+    return d;
+  }
+}
+function saveState(s){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+}
+
+/* ---------------------------
+   UI references
+   --------------------------- */
+const folderListEl = document.getElementById('folderList');
+const folderSelectEl = document.getElementById('folderSelect');
+const bookmarkContainer = document.getElementById('bookmarksContainer');
+const statsEl = document.getElementById('stats');
+
+const newFolderName = document.getElementById('newFolderName');
+const addFolderBtn = document.getElementById('addFolderBtn');
+const renameFolderBtn = document.getElementById('renameFolderBtn');
+const delFolderBtn = document.getElementById('delFolderBtn');
+const exportBtn = document.getElementById('exportBtn');
+const importBtn = document.getElementById('importBtn');
+const importModal = document.getElementById('modal');
+const importTextarea = document.getElementById('importTextarea');
+const doImportBtn = document.getElementById('doImport');
+const cancelImportBtn = document.getElementById('cancelImport');
+
+const searchInput = document.getElementById('searchInput');
+const bookmarkName = document.getElementById('bookmarkName');
+const bookmarkURL = document.getElementById('bookmarkURL');
+const addBookmarkBtnEl = document.getElementById('addBookmarkBtn');
+const editModeBtn = document.getElementById('editModeBtn');
+const contrastToggle = document.getElementById('contrastToggle');
+const clearAllBtn = document.getElementById('clearAllBtn');
+
+/* UI state */
+let activeFolderId = state.folders[0]?.id || 'f_all';
+let isEditMode = false;
+let highContrast = false;
+
+/* ---------------------------
+   Rendering
+   --------------------------- */
+function renderFolders(){
+  folderListEl.innerHTML = '';
+  state.folders.forEach(f => {
+    const el = document.createElement('div');
+    el.className = 'folder' + (f.id === activeFolderId ? ' active' : '');
+    el.dataset.folderId = f.id;
+
+    el.innerHTML = `
+      <div class="dot" aria-hidden></div>
+      <div class="fname" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</div>
+    `;
+    el.addEventListener('click', () => {
+      activeFolderId = f.id;
+      renderAll();
+    });
+
+    folderListEl.appendChild(el);
+  });
+
+  // populate folder select (for adding bookmarks)
+  folderSelectEl.innerHTML = '';
+  state.folders.forEach(f => {
+    const opt = document.createElement('option');
+    opt.value = f.id;
+    opt.textContent = f.name;
+    folderSelectEl.appendChild(opt);
+  });
+
+  // select active
+  folderSelectEl.value = activeFolderId || state.folders[0].id;
+}
+
+function renderBookmarks(){
+  const q = (searchInput.value || '').trim().toLowerCase();
+  // Filter bookmarks: if activeFolderId === 'f_all' show all; else show those in selected folder.
+  let list = state.bookmarks.slice(); // copy
+  if (activeFolderId && activeFolderId !== 'f_all') {
+    list = list.filter(b => b.folderId === activeFolderId);
+  }
+
+  if (q) {
+    list = list.filter(b => (b.name + ' ' + b.url).toLowerCase().includes(q));
+  }
+
+  // sort by createdAt ascending by default; allow drag reorder (we'll preserve order in state.bookmarks array)
+  // show message if empty
+  bookmarkContainer.innerHTML = '';
+  if (list.length === 0) {
+    const msg = document.createElement('div');
+    msg.className = 'empty';
+    msg.textContent = 'No bookmarks found — add one using the form above.';
+    bookmarkContainer.appendChild(msg);
+    return;
+  }
+
+  // For each, create card
+  list.forEach(b => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.draggable = true;
+    card.dataset.bid = b.id;
+
+    // favicon via service (duckduckgo or google s2). We'll use DuckDuckGo icons for better CORS.
+    const faviconUrl = getFaviconURL(b.url);
+
+    card.innerHTML = `
+      <div class="favicon"><img src="${faviconUrl}" onerror="this.style.visibility='hidden';" width="20" height="20" alt="" /></div>
+      <div class="info">
+        <div class="title"><a href="${escapeAttr(b.url)}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">${escapeHtml(b.name)}</a></div>
+        <div class="url">${escapeHtml(b.url)}</div>
+      </div>
+      <div class="card-actions">
+        <button class="icon-btn" data-action="open" title="Open">Open</button>
+        <button class="icon-btn" data-action="edit" title="Edit">Edit</button>
+        <button class="icon-btn" data-action="delete" title="Delete">Delete</button>
+      </div>
+    `;
+
+    // drag handlers
+    card.addEventListener('dragstart', dragStart);
+    card.addEventListener('dragend', dragEnd);
+
+    // allow dropping between cards / on container
+    card.addEventListener('dragover', dragOver);
+    card.addEventListener('drop', dropOnCard);
+
+    // action handlers
+    card.querySelector('[data-action="open"]').addEventListener('click', ()=> window.open(b.url, '_blank', 'noopener'));
+    card.querySelector('[data-action="edit"]').addEventListener('click', ()=> startEditBookmark(b.id));
+    card.querySelector('[data-action="delete"]').addEventListener('click', ()=> deleteBookmark(b.id));
+
+    bookmarkContainer.appendChild(card);
+  });
+
+  // allow drop on container to append at end
+  bookmarkContainer.addEventListener('dragover', dragOver);
+  bookmarkContainer.addEventListener('drop', dropOnContainer);
+}
+
+function renderAll(){
+  renderFolders();
+  renderBookmarks();
+  updateStats();
+}
+
+function updateStats(){
+  statsEl.textContent = `${state.bookmarks.length} bookmarks • ${state.folders.length} folders`;
+}
+
+/* ---------------------------
+   Utilities
+   --------------------------- */
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return String(s).replace(/"/g,'&quot;'); }
+function getFaviconURL(url){
+  try {
+    const u = new URL(url);
+    // DuckDuckGo favicon service:
+    return `https://icons.duckduckgo.com/ip3/${u.hostname}.ico`;
+  } catch(e){
+    return '';
+  }
+}
+
+/* ---------------------------
+   Folder actions
+   --------------------------- */
+addFolderBtn.addEventListener('click', ()=>{
+  const name = (newFolderName.value || '').trim();
+  if (!name) { alert('Enter a folder name'); return; }
+  const id = uid('f');
+  state.folders.push({ id, name });
+  saveState(state);
+  newFolderName.value = '';
+  activeFolderId = id;
+  renderAll();
+});
+
+renameFolderBtn.addEventListener('click', ()=>{
+  if (!activeFolderId || activeFolderId === 'f_all') { alert('Select a folder to rename (not "All Bookmarks").'); return; }
+  const f = state.folders.find(x=>x.id===activeFolderId);
+  if (!f) return;
+  const v = prompt('Rename folder:', f.name);
+  if (v === null) return;
+  const nv = v.trim();
+  if (!nv) { alert('Name cannot be empty'); return; }
+  f.name = nv;
+  saveState(state);
+  renderAll();
+});
+
+delFolderBtn.addEventListener('click', ()=>{
+  if (!activeFolderId || activeFolderId === 'f_all') { alert('Select a folder to delete (not "All Bookmarks").'); return; }
+  if (!confirm('Delete this folder? Bookmarks inside will be moved to Unsorted.')) return;
+  // move bookmarks to f_uncat
+  state.bookmarks.forEach(b => { if (b.folderId === activeFolderId) b.folderId = 'f_uncat'; });
+  // remove folder
+  state.folders = state.folders.filter(f => f.id !== activeFolderId);
+  activeFolderId = state.folders[0]?.id || 'f_all';
+  saveState(state);
+  renderAll();
+});
+
+/* ---------------------------
+   Bookmark actions
+   --------------------------- */
+addBookmarkBtnEl.addEventListener('click', ()=>{
+  const name = (bookmarkName.value || '').trim();
+  const url = (bookmarkURL.value || '').trim();
+  const folderId = folderSelectEl.value || 'f_uncat';
+  if (!name || !url) { alert('Enter both name and URL'); return; }
+  const normalized = normalizeUrl(url);
+  if (!normalized) { alert('Invalid URL'); return; }
+  const b = { id: uid('b'), name, url: normalized, folderId, createdAt: new Date().toISOString() };
+  // Add at the end (we maintain state.bookmarks order)
+  state.bookmarks.push(b);
+  saveState(state);
+  bookmarkName.value = '';
+  bookmarkURL.value = '';
+  renderAll();
+});
+
+/* edit bookmark */
+function startEditBookmark(bid){
+  const b = state.bookmarks.find(x=>x.id===bid);
+  if (!b) return;
+  const newName = prompt('Edit name:', b.name);
+  if (newName === null) return;
+  const newUrl = prompt('Edit URL:', b.url);
+  if (newUrl === null) return;
+  const normalized = normalizeUrl(newUrl.trim());
+  if (!normalized) { alert('Invalid URL'); return; }
+  b.name = newName.trim() || b.name;
+  b.url = normalized;
+  b.updatedAt = new Date().toISOString();
+  saveState(state);
+  renderAll();
+}
+
+function deleteBookmark(bid){
+  if (!confirm('Delete bookmark?')) return;
+  state.bookmarks = state.bookmarks.filter(x=>x.id!==bid);
+  saveState(state);
+  renderAll();
+}
+
+/* normalize url helper */
+function normalizeUrl(input){
+  try {
+    input = input.trim();
+    // if missing scheme, add https://
+    if (!/^[a-zA-Z][a-zA-Z0-9+-.]*:\/\//.test(input)) {
+      input = 'https://' + input;
+    }
+    const u = new URL(input);
+    return u.href;
+  } catch(e){
+    return null;
+  }
+}
+
+/* ---------------------------
+   Drag & Drop handlers
+   - Allows reordering within overall bookmarks array
+   - Moving between folders: when dropped on a card belonging to other folder OR on container while a folder is active
+   - We pass JSON in dataTransfer with {bid, fromIndex}
+   --------------------------- */
+
+let dragData = null;
+
+function findIndexById(bid){ return state.bookmarks.findIndex(x=>x.id===bid); }
+
+function dragStart(e){
+  const el = e.currentTarget;
+  const bid = el.dataset.bid;
+  const idx = findIndexById(bid);
+  dragData = { bid, idx };
+  el.classList.add('dragging');
+  try { e.dataTransfer.setData('application/json', JSON.stringify(dragData)); } catch(e){}
+  e.dataTransfer.effectAllowed = 'move';
+}
+function dragEnd(e){
+  const el = e.currentTarget;
+  el.classList.remove('dragging');
+  dragData = null;
+}
+
+function dragOver(e){
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+
+function dropOnCard(e){
+  e.preventDefault();
+  const targetCard = e.currentTarget;
+  const targetBid = targetCard.dataset.bid;
+  // read data
+  let data = null;
+  try { data = JSON.parse(e.dataTransfer.getData('application/json')); } catch(e){}
+  if (!data && dragData) data = dragData;
+  if (!data) return;
+
+  const fromIdx = data.idx;
+  const bid = data.bid;
+  const toIdx = findIndexById(targetBid);
+  if (fromIdx < 0 || toIdx < 0) return;
+
+  // If same position -> no-op
+  if (fromIdx === toIdx) return;
+
+  // move element in array
+  const item = state.bookmarks.splice(fromIdx,1)[0];
+  // if dropping onto a card belonging to a different folder, set its folderId to the card's folder
+  const targetItem = state.bookmarks.find(x=>x.id===targetBid);
+  if (targetItem) item.folderId = targetItem.folderId || 'f_uncat';
+
+  // insert before target index if fromIdx < toIdx then target index decreased by 0 after removal? Adjust:
+  let insertAt = toIdx;
+  if (fromIdx < toIdx) insertAt = toIdx; // after removal list is shorter, but we've removed fromIdx earlier so toIdx already refers to new array
+  state.bookmarks.splice(insertAt, 0, item);
+
+  saveState(state);
+  renderAll();
+}
+
+function dropOnContainer(e){
+  e.preventDefault();
+  let data = null;
+  try { data = JSON.parse(e.dataTransfer.getData('application/json')); } catch(e){}
+  if (!data && dragData) data = dragData;
+  if (!data) return;
+  const fromIdx = data.idx;
+  if (fromIdx < 0) return;
+  const item = state.bookmarks.splice(fromIdx,1)[0];
+  // if dropping on empty container or folder active, set folderId accordingly
+  if (activeFolderId && activeFolderId !== 'f_all') item.folderId = activeFolderId;
+  state.bookmarks.push(item); // append
+  saveState(state);
+  renderAll();
+}
+
+/* ---------------------------
+   Search & misc buttons
+   --------------------------- */
+searchInput.addEventListener('input', ()=> renderBookmarks());
+
+editModeBtn.addEventListener('click', ()=> {
+  isEditMode = !isEditMode;
+  editModeBtn.textContent = isEditMode ? 'Edit Mode ✓' : 'Edit Mode';
+  // visually indicate edit mode (not used elsewhere but helpful)
+  document.querySelectorAll('.card').forEach(c => c.style.cursor = isEditMode ? 'pointer' : 'grab');
+});
+
+contrastToggle.addEventListener('click', ()=> {
+  highContrast = !highContrast;
+  document.body.style.background = highContrast ? '#020003' : '';
+  contrastToggle.textContent = highContrast ? 'Contrast ✓' : 'High Contrast';
+  // tweak some CSS variables for stronger neon
+  if (highContrast) {
+    document.documentElement.style.setProperty('--accent1', '#00fff6');
+    document.documentElement.style.setProperty('--accent2', '#ff00d0');
+    document.documentElement.style.setProperty('--accent3', '#a6ff00');
+    document.documentElement.style.setProperty('--muted', '#cfe9ff');
+  } else {
+    document.documentElement.style.setProperty('--accent1', '#7afcff');
+    document.documentElement.style.setProperty('--accent2', '#ff4de1');
+    document.documentElement.style.setProperty('--accent3', '#9a7bff');
+    document.documentElement.style.setProperty('--muted', '#9aa3ff');
+  }
+});
+
+clearAllBtn.addEventListener('click', ()=> {
+  if (!confirm('Clear ALL bookmarks and folders? This will reset to default folders.')) return;
+  state = defaultData();
+  saveState(state);
+  activeFolderId = state.folders[0].id;
+  renderAll();
+});
+
+/* ---------------------------
+   Export / Import
+   --------------------------- */
+exportBtn.addEventListener('click', ()=>{
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'neon-bookmarks.json';
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+});
+
+importBtn.addEventListener('click', ()=>{
+  importModal.classList.add('open');
+  importTextarea.value = '';
+});
+
+doImportBtn.addEventListener('click', ()=>{
+  const txt = importTextarea.value.trim();
+  if (!txt) { alert('Paste JSON first'); return; }
+  try {
+    const parsed = JSON.parse(txt);
+    // Accept either full state with folders/bookmarks or just array of bookmarks
+    if (parsed && Array.isArray(parsed.bookmarks) && Array.isArray(parsed.folders)) {
+      // Overwrite current state? We'll append folders and bookmarks (avoid id collisions)
+      const existingFolderNames = new Set(state.folders.map(f => f.name));
+      const mapOldToNew = {};
+      parsed.folders.forEach(f => {
+        if (existingFolderNames.has(f.name)) {
+          // find existing id
+          const ex = state.folders.find(x=>x.name===f.name);
+          mapOldToNew[f.id] = ex.id;
+        } else {
+          const nid = uid('f');
+          state.folders.push({ id: nid, name: f.name });
+          mapOldToNew[f.id] = nid;
+        }
+      });
+      // import bookmarks
+      parsed.bookmarks.forEach(b => {
+        const folderId = mapOldToNew[b.folderId] || 'f_uncat';
+        const nb = { id: uid('b'), name: b.name || b.title || b.url, url: normalizeUrl(b.url||b.href||b.link) || '', folderId, createdAt: b.createdAt || new Date().toISOString() };
+        if (nb.url) state.bookmarks.push(nb);
+      });
+      saveState(state); renderAll();
+      importModal.classList.remove('open');
+      alert('Imported bookmarks and folders.');
+    } else if (Array.isArray(parsed)) {
+      // simple array of bookmarks
+      parsed.forEach(b=>{
+        const url = normalizeUrl(b.url || b.href || b.link || '');
+        if (!url) return;
+        state.bookmarks.push({ id: uid('b'), name: b.name || b.title || url, url, folderId: 'f_uncat', createdAt: new Date().toISOString() });
+      });
+      saveState(state); renderAll();
+      importModal.classList.remove('open');
+      alert('Imported bookmarks.');
+    } else {
+      throw new Error('Unsupported JSON structure');
+    }
+  } catch(e){
+    alert('Import failed: ' + (e.message || e));
+  }
+});
+
+cancelImportBtn.addEventListener('click', ()=> importModal.classList.remove('open'));
+document.getElementById('cancelImport').addEventListener('click', ()=> importModal.classList.remove('open'));
+
+/* ---------------------------
+   Initialization
+   --------------------------- */
+(function init(){
+  // Ensure at least required folders exist
+  if (!state.folders || state.folders.length === 0) state.folders = defaultData().folders;
+  // ensure 'f_uncat' exists
+  if (!state.folders.some(f => f.id === 'f_uncat')) state.folders.push({ id:'f_uncat', name:'Unsorted' });
+  if (!state.folders.some(f => f.id === 'f_all')) state.folders.unshift({ id:'f_all', name:'All Bookmarks' });
+
+  // ensure every bookmark has folderId
+  state.bookmarks.forEach(b => { if (!b.folderId) b.folderId = 'f_uncat'; });
+
+  // set active folder if missing
+  if (!activeFolderId || !state.folders.some(f=>f.id===activeFolderId)) activeFolderId = state.folders[0].id;
+
+  renderAll();
+})();
+
+/* ---------------------------
+   Small helpers: allow pressing Enter to add bookmark
+   --------------------------- */
+bookmarkURL.addEventListener('keyup', (e)=>{
+  if (e.key === 'Enter') addBookmarkBtnEl.click();
+});
+bookmarkName.addEventListener('keyup', (e)=>{
+  if (e.key === 'Enter') bookmarkURL.focus();
+});
+newFolderName.addEventListener('keyup', (e)=>{
+  if (e.key === 'Enter') addFolderBtn.click();
+});
+
+/* ---------------------------
+   Expose small debug API on window
+   --------------------------- */
+window.neonBM = {
+  getState: ()=> JSON.parse(JSON.stringify(state)),
+  reset: ()=> { state = defaultData(); saveState(state); renderAll(); }
+};
+</script>
+</body>
+</html>
