@@ -1,0 +1,26 @@
+<!-- Stop Interval with a Button -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stop Interval</title>
+</head>
+<body>
+
+<h2 id="count">0</h2>
+<button id="stopBtn">Stop</button>
+
+<script>
+    let num = 0;
+
+    let intervalId = setInterval(() => {
+        num++;
+        document.getElementById("count").textContent = num;
+    }, 1000);
+
+    document.getElementById("stopBtn").onclick = () => {
+        clearInterval(intervalId);
+    };
+</script>
+
+</body>
+</html>
