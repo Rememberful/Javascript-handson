@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form id="myForm">
+    <input type="text">
+    <button type="submit">Submit</button>
+</form>
+<script>
+document.getElementById("myForm").addEventListener("submit", (event) => {
+    event.preventDefault(); // stops page reload
+    alert("Form submitted");
+});
+</script>
+</body>
+</html>
