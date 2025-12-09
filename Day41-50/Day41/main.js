@@ -56,7 +56,6 @@ class Device {
         console.log("Device is turning off.");
     }
 }
-
 // Child class
 class Phone extends Device {
     makeCall() {
@@ -67,7 +66,6 @@ class Phone extends Device {
         console.log("Phone is turning on with animation.");
     }
 }
-
 // Grandchild class
 class Smartphone extends Phone {
     openApp(appName) {
